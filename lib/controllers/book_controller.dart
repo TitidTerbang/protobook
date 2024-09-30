@@ -6,12 +6,20 @@ class BookController extends GetxController {
     Book(
         title: 'Le Petit Prince',
         author: 'Antoine De Saint-Exupéry',
-        imageUrl: 'https://m.media-amazon.com/images/I/61NGp-UxolL._AC_UF1000,1000_QL80_.jpg'),
+        imagePath: 'assets/images/le_petit_prince.jpg'),
     Book(
         title: 'Il Principe',
         author: 'Niccolò Machiavelli',
-        imageUrl: 'https://m.media-amazon.com/images/I/71BoTYIhOWL._AC_UF1000,1000_QL80_.jpg'),
-    // Tambahkan buku lainnya di sini
+        imagePath: 'assets/images/il_principe.jpg'),
+    Book(
+        title: 'Paddington Bear',
+        author: 'Michael Bond',
+        imagePath: 'assets/images/tes.jpg'),
+    Book(
+        title: 'The Little Engine That Could',
+      author: 'Watty Piper',
+      imagePath: 'assets/images/engine.jpg'
+    )
   ].obs;
 
   List<Book> get books => _books;

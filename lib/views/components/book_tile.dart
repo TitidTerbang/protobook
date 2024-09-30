@@ -9,7 +9,7 @@ class BookTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(book.imageUrl),
+      leading: Image.asset(book.imagePath),
       title: Text(book.title),
       subtitle: Text(book.author),
     );
