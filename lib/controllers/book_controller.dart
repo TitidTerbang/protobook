@@ -16,9 +16,9 @@ class BookController extends GetxController {
         author: 'Michael Bond',
         imagePath: 'assets/images/tes.jpg'),
     Book(
-        title: 'The Little Engine That Could',
+        title: 'The Little Engine',
       author: 'Watty Piper',
-      imagePath: 'assets/images/engine.jpg'
+      imagePath: 'assets/images/wally.jpg'
     )
   ].obs;
 
