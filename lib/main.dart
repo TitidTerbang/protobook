@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'views/home_screen.dart';
 import 'views/user_screen.dart';
-import 'views/bookDetail_screen.dart'; // Pastikan Anda mengimport BookDetailScreen
+import 'views/bookDetail_screen.dart';
+import 'views/populer_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => HomeScreen()),
         GetPage(name: '/user', page: () => UserScreen()),
         GetPage(name: '/bookDetail', page: () => BookDetailScreen()),
-      ], // Hanya satu tanda kurung siku di sini
+        GetPage(name: '/popularBooks', page: () => PopularScreen()),
+      ],
     );
   }
 }
