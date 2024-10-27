@@ -14,31 +14,35 @@ class UserScreen extends StatelessWidget {
         title: Text('Profil User'),
       ),
       body: Obx(() => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    userController.changeProfilePicture();
-                  },
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundImage: userController.user.value.profilePicture
-                            .contains('http')
-                        ? NetworkImage(userController.user.value.profilePicture)
-                        : FileImage(
-                                File(userController.user.value.profilePicture))
-                            as ImageProvider,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  userController.user.value.name,
-                  style: TextStyle(fontSize: 24),
-                ),
-              ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                userController.changeProfilePicture();
+              },
+              child: CircleAvatar(
+                radius: 80,
+                backgroundImage:
+                userController.appUser.value.profilePicture.contains('http')
+                    ? NetworkImage(userController.appUser.value.profilePicture)
+                    : FileImage(File(userController.appUser.value.profilePicture))
+                as ImageProvider,
+              ),
             ),
-          )),
+            SizedBox(height: 20),
+            Text(
+              userController.appUser.value.name,
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 10), // gap antara email dan username
+            Text(
+              userController.appUser.value.email ?? 'Email tidak tersedia',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      )),
     );
   }
 }

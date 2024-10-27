@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,26 +6,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 
 class UserController extends GetxController {
-  final user = User(
+  final appUser = AppUser(
       name: 'Nama User',
       profilePicture: 'https://via.placeholder.com/150')
       .obs;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void onInit() {
     super.onInit();
-    loadProfilePicture(); // Load saat inisialisasi
+    loadProfilePicture();
+    _loadUserData();
   }
+
+  void _loadUserData() async {
+    User? firebaseUser = _auth.currentUser;
+    if (firebaseUser != null) {
+      appUser.update((val) {
+        val?.email = firebaseUser.email;
+      });
+    }
+    }
 
   Future<void> changeProfilePicture() async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
     if (image != null) {
-      user.update((val) {
+      appUser.update((val) {
         val?.profilePicture = image.path;
       });
-      saveProfilePicture(image.path); // Simpan path ke local storage
+      saveProfilePicture(image.path);
     }
   }
 
@@ -37,7 +48,7 @@ class UserController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? path = prefs.getString('profilePicture');
     if (path != null) {
-      user.update((val) {
+      appUser.update((val) {
         val?.profilePicture = path;
       });
     }

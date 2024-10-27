@@ -1,6 +1,7 @@
-class User {
+class AppUser {
   String name;
   String profilePicture;
+  String? email;
 
-  User({required this.name, required this.profilePicture});
+  AppUser({required this.name, required this.profilePicture, this.email});
 }
