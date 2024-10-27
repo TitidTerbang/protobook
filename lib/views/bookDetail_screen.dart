@@ -75,7 +75,7 @@ class BookDetailScreen extends StatelessWidget {
   }
 
   Future<Map<String, dynamic>> fetchBookDetails(String isbn) async {
-    final apiKey = 'AIzaSyAxUhyuum5GX9RlEN1tHLvYnWneAPSP24k'; // Ganti dengan API key Anda
+    final apiKey = 'AIzaSyAxUhyuum5GX9RlEN1tHLvYnWneAPSP24k';
     final url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn&key=$apiKey';
     final response = await http.get(Uri.parse(url));
 

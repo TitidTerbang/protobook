@@ -3,36 +3,29 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class PopularScreen extends StatefulWidget {
   @override
-  State<PopularScreen> createState() => _PopularScreenState();
+  _PopularScreenState createState() => _PopularScreenState();
 }
 
 class _PopularScreenState extends State<PopularScreen> {
-  late final WebViewController _controller;
-  bool isLoading = true;
+  late WebViewController controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = WebViewController()
+    controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onPageStarted: (String url) {
-            setState(() {
-              isLoading = true;
-            });
+          onProgress: (int progress) {
+            // Update loading bar if needed
           },
-          onPageFinished: (String url) {
-            setState(() {
-              isLoading = false;
-            });
-          },
-          onWebResourceError: (WebResourceError error) {
-            print('WebView error: ${error.description}');
-          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
         ),
       )
-      ..loadRequest(Uri.parse('https://www.google.com'));
+      ..loadRequest(Uri.parse('https://www.goodreads.com/list/show/99103.Top_100_Children_s_Books_on_Goodreads'));
   }
 
   @override
@@ -41,15 +34,7 @@ class _PopularScreenState extends State<PopularScreen> {
       appBar: AppBar(
         title: Text('Buku Populer'),
       ),
-      body: Stack(
-        children: [
-          WebViewWidget(controller: _controller),
-          if (isLoading)
-            const Center(
-              child: CircularProgressIndicator(),
-            ),
-        ],
-      ),
+      body: WebViewWidget(controller: controller),
     );
   }
 }
