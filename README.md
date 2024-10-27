@@ -1,16 +1,19 @@
 # proto_book
 
-A new Flutter project.
+## 1. struktur folder
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+lib/
+├─ controllers/
+│  ├─ book_controller.dart
+│  ├─ user_controller.dart
+├─ models/
+│  ├─ user.dart
+│  ├─ book.dart
+├─ views/
+│  ├─ components/
+│  │  ├─ book_tile.dart
+│  ├─ bookDetail_screen.dart
+│  ├─ home_screen.dart
+│  ├─ populer_screen.dart
+│  ├─ user_screen.dart
+main.dart

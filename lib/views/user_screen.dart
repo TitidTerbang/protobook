@@ -14,30 +14,31 @@ class UserScreen extends StatelessWidget {
         title: Text('Profil User'),
       ),
       body: Obx(() => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                userController.changeProfilePicture();
-              },
-              child: CircleAvatar(
-                radius: 80,
-                backgroundImage:
-                userController.user.value.profilePicture.contains('http')
-                    ? NetworkImage(userController.user.value.profilePicture)
-                    : FileImage(File(userController.user.value.profilePicture))
-                as ImageProvider,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    userController.changeProfilePicture();
+                  },
+                  child: CircleAvatar(
+                    radius: 80,
+                    backgroundImage: userController.user.value.profilePicture
+                            .contains('http')
+                        ? NetworkImage(userController.user.value.profilePicture)
+                        : FileImage(
+                                File(userController.user.value.profilePicture))
+                            as ImageProvider,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  userController.user.value.name,
+                  style: TextStyle(fontSize: 24),
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            Text(
-              userController.user.value.name,
-              style: TextStyle(fontSize: 24),
-            ),
-          ],
-        ),
-      )),
+          )),
     );
   }
 }

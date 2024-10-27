@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "419220958986",
+    "project_id": "proto-book",
+    "storage_bucket": "proto-book.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419220958986:android:3895ddc048a2cd665bd4f3",
+        "android_client_info": {
+          "package_name": "com.book.proto_book"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt4G7g28OSRbZhWRGQq3_Q0aDmln-1NOQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
