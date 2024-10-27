@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../controllers/auth_controller.dart';
 import '../controllers/user_controller.dart';
 
-class UserScreen extends StatelessWidget {
+class UserScreen extends GetView<AuthController> {
   final userController = Get.put(UserController());
 
   @override
@@ -12,6 +13,14 @@ class UserScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profil User'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              controller.signOut();
+            },
+          ),
+        ],
       ),
       body: Obx(() => Center(
         child: Column(

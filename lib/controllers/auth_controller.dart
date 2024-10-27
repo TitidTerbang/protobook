@@ -37,6 +37,7 @@ class AuthController extends GetxController {
       }
     } finally {
       isLoading.value = false;
+        Get.snackbar('Success', 'Sign in successful.');
     }
   }
 
@@ -65,9 +66,10 @@ class AuthController extends GetxController {
 
   void signOut() async {
     try {
-      await _auth.signOut();
+      await FirebaseAuth.instance.signOut();
       isLoggedIn.value = false;
       Get.offAllNamed('/signIn');
+      Get.snackbar('Success', 'Sign out successful.');
     } catch (e) {
       Get.snackbar('Error', 'Failed to sign out.');
     }
