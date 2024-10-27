@@ -2,18 +2,26 @@
 
 ## 1. struktur folder
 
-lib/
-├─ controllers/
-│  ├─ book_controller.dart
-│  ├─ user_controller.dart
-├─ models/
-│  ├─ user.dart
-│  ├─ book.dart
-├─ views/
-│  ├─ components/
-│  │  ├─ book_tile.dart
-│  ├─ bookDetail_screen.dart
-│  ├─ home_screen.dart
-│  ├─ populer_screen.dart
-│  ├─ user_screen.dart
-main.dart
+```text
+Lib/
+├── Controller/
+│   ├── auth_controller.dart
+│   ├── book_controller.dart
+│   └── user_controller.dart
+├── models/
+│   ├── book.dart
+│   └── user.dart
+├── views/
+│   ├── auth/
+│   │   ├── signin_screen.dart
+│   │   └── signup_screen.dart
+│   ├── components/
+│   │   └── book_tile.dart
+│   ├── bookDetail_screen.dart
+│   ├── home_screen.dart
+│   ├── populer_screen.dart
+│   └── user_screen.dart
+├── apikey.txt
+├── firebase_options.dart
+└── main.dart
+```
