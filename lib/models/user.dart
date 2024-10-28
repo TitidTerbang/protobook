@@ -11,7 +11,6 @@ class AppUser {
     this.bio,
   });
 
-
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -20,7 +19,6 @@ class AppUser {
       'bio': bio,
     };
   }
-
 
   factory AppUser.fromMap(Map<String, dynamic> map) {
     return AppUser(

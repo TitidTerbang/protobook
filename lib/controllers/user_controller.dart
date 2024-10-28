@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart'; // Tambahkan import Firebase Storage
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 
 import '../models/user.dart';
 
@@ -15,18 +17,17 @@ class UserController extends GetxController {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    await loadProfilePicture();
     await _loadUserData();
   }
 
   Future<void> _loadUserData() async {
     User? firebaseUser = _auth.currentUser;
     if (firebaseUser != null) {
-
       DocumentSnapshot userData = await _firestore
           .collection('users')
           .doc(firebaseUser.uid)
@@ -43,7 +44,7 @@ class UserController extends GetxController {
           }
         });
       } else {
-
+        // Jika user baru, tambahkan data default ke Firestore
         await _firestore.collection('users').doc(firebaseUser.uid).set({
           'email': firebaseUser.email,
           'bio': '',
@@ -72,39 +73,32 @@ class UserController extends GetxController {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
+      File imageFile = File(image.path);
+      try {
+        String userId = _auth.currentUser!.uid;
 
-      await saveProfilePicture(image.path);
+        // Upload gambar ke Firebase Storage
+        TaskSnapshot uploadTask = await _storage
+            .ref('profile_pictures/$userId.jpg')
+            .putFile(imageFile);
 
-      appUser.update((val) {
-        if (val != null) {
-          val.profilePicture = image.path;
-        }
-      });
+        // Ambil URL gambar dari Firebase Storage
+        String downloadUrl = await uploadTask.ref.getDownloadURL();
 
-
-      User? firebaseUser = _auth.currentUser;
-      if (firebaseUser != null) {
-        await _firestore.collection('users').doc(firebaseUser.uid).update({
-          'profilePicture': image.path,
+        // Simpan URL gambar di Firestore
+        await _firestore.collection('users').doc(userId).update({
+          'profilePicture': downloadUrl,
         });
+
+        // Update gambar di appUser
+        appUser.update((val) {
+          if (val != null) {
+            val.profilePicture = downloadUrl;
+          }
+        });
+      } catch (e) {
+        print("Error uploading profile picture: $e");
       }
-    }
-  }
-
-  Future<void> saveProfilePicture(String path) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('profilePicture', path);
-  }
-
-  Future<void> loadProfilePicture() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? path = prefs.getString('profilePicture');
-    if (path != null) {
-      appUser.update((val) {
-        if (val != null) {
-          val.profilePicture = path;
-        }
-      });
     }
   }
 
