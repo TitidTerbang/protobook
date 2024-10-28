@@ -26,6 +26,7 @@ class AuthController extends GetxController {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      Get.snackbar('Sukses', 'Login berhasil');
       isLoggedIn.value = true;
       Get.offNamed('/home');
     } on FirebaseAuthException catch (e) {
@@ -34,11 +35,10 @@ class AuthController extends GetxController {
       } else if (e.code == 'wrong-password') {
         Get.snackbar('Error', 'Wrong password provided for that user.');
       } else {
-        Get.snackbar('Error', e.message ?? 'An unknown error occurred.');
+        Get.snackbar('Error', 'sandi atau email salah' ?? 'An unknown error occurred.');
       }
     } finally {
       isLoading.value = false;
-        Get.snackbar('Success', 'Sign in successful.');
       String? token = await FirebaseMessaging.instance.getToken();
       print('FCM Token: $token');
     }
@@ -55,9 +55,9 @@ class AuthController extends GetxController {
       Get.offNamed('/home');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        Get.snackbar('Error', 'The password provided is too weak.');
+        Get.snackbar('Error', 'Password terlalu lemah');
       } else if (e.code == 'email-already-in-use') {
-        Get.snackbar('Error', 'The account already exists for that email.');
+        Get.snackbar('Error', 'Akun sudah terdaftar');
       } else {
         Get.snackbar('Error', e.message ?? 'An unknown error occurred.');
       }
@@ -72,7 +72,7 @@ class AuthController extends GetxController {
       await FirebaseAuth.instance.signOut();
       isLoggedIn.value = false;
       Get.offAllNamed('/signIn');
-      Get.snackbar('Success', 'Sign out successful.');
+      Get.snackbar('Sukses', 'Logout berhasil');
     } catch (e) {
       Get.snackbar('Error', 'Failed to sign out.');
     }
