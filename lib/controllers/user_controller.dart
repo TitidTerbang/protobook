@@ -26,7 +26,7 @@ class UserController extends GetxController {
   Future<void> _loadUserData() async {
     User? firebaseUser = _auth.currentUser;
     if (firebaseUser != null) {
-      // Load data dari Firestore
+
       DocumentSnapshot userData = await _firestore
           .collection('users')
           .doc(firebaseUser.uid)
@@ -43,7 +43,7 @@ class UserController extends GetxController {
           }
         });
       } else {
-        // Buat dokumen baru jika belum ada
+
         await _firestore.collection('users').doc(firebaseUser.uid).set({
           'email': firebaseUser.email,
           'bio': '',
@@ -72,7 +72,7 @@ class UserController extends GetxController {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      // Simpan path gambar ke SharedPreferences dulu
+
       await saveProfilePicture(image.path);
 
       appUser.update((val) {
@@ -81,7 +81,7 @@ class UserController extends GetxController {
         }
       });
 
-      // Update profile picture di Firestore
+
       User? firebaseUser = _auth.currentUser;
       if (firebaseUser != null) {
         await _firestore.collection('users').doc(firebaseUser.uid).update({
@@ -91,13 +91,11 @@ class UserController extends GetxController {
     }
   }
 
-  // Method untuk menyimpan path gambar profil di SharedPreferences
   Future<void> saveProfilePicture(String path) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('profilePicture', path);
   }
 
-  // Method untuk memuat gambar profil dari SharedPreferences
   Future<void> loadProfilePicture() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? path = prefs.getString('profilePicture');
@@ -110,7 +108,6 @@ class UserController extends GetxController {
     }
   }
 
-  // Method untuk update nama user
   Future<void> updateName(String newName) async {
     User? firebaseUser = _auth.currentUser;
     if (firebaseUser != null) {
@@ -125,7 +122,6 @@ class UserController extends GetxController {
     }
   }
 
-  // Method untuk mendapatkan data user terbaru dari Firestore
   Future<void> refreshUserData() async {
     await _loadUserData();
   }

@@ -53,7 +53,6 @@ class UserScreen extends GetView<AuthController> {
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 20),
-                // Bio Section
                 Card(
                   child: Padding(
                     padding: EdgeInsets.all(16.0),

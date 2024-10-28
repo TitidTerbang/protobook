@@ -2,16 +2,16 @@ class AppUser {
   String name;
   String profilePicture;
   String? email;
-  String? bio; // Tambah field bio
+  String? bio;
 
   AppUser({
     required this.name,
     required this.profilePicture,
     this.email,
-    this.bio, // Tambah parameter bio
+    this.bio,
   });
 
-  // Tambah method untuk convert ke Map (untuk Firestore)
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -21,7 +21,7 @@ class AppUser {
     };
   }
 
-  // Tambah factory constructor dari Map (untuk Firestore)
+
   factory AppUser.fromMap(Map<String, dynamic> map) {
     return AppUser(
       name: map['name'] ?? 'Nama User',

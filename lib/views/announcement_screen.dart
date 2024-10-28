@@ -5,7 +5,6 @@ import 'package:proto_book/models/announcement.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-//inisialisasi notifikasi plugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
@@ -20,7 +19,6 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
   @override
   void initState() {
     super.initState();
-    // Inisialisasi listener untuk notifikasi foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -33,15 +31,13 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
           const NotificationDetails(
             android: AndroidNotificationDetails(
               'high_importance_channel',
-              // Pastikan ID channel sama dengan yang di main.dart
-              'High Importance Notifications', // Nama channel
+              'High Importance Notifications',
               channelDescription:
                   'This channel is used for important notifications.',
-              icon: 'launch_background', // Ganti dengan icon aplikasi Anda
+              icon: 'launch_background',
             ),
           ),
         );
-        // Tambahkan logika untuk memperbarui UI announcement_screen di sini
         final announcementController = Get.find<AnnouncementController>();
         announcementController.addAnnouncementFromRemoteMessage(message);
       }

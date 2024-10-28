@@ -14,7 +14,6 @@ class Announcement {
   }
 
 
-  //tambahkan fungsi toJson() untuk menyimpan data ke local storage/database
 
 
   Map<String, dynamic> toJson() => {
@@ -24,7 +23,6 @@ class Announcement {
 
 
 
-  //tambahkan fungsi fromJson() untuk membaca data dari local storage/database
   factory Announcement.fromJson(Map<String, dynamic> json) => Announcement(
     title: json['title'] ,
     body: json['body'],
