@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +39,8 @@ class AuthController extends GetxController {
     } finally {
       isLoading.value = false;
         Get.snackbar('Success', 'Sign in successful.');
+      String? token = await FirebaseMessaging.instance.getToken();
+      print('FCM Token: $token');
     }
   }
 

@@ -16,6 +16,14 @@ class HomeScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 20,
             )),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.campaign),
+            onPressed: () {
+              Get.toNamed('/announcement');
+            },
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
