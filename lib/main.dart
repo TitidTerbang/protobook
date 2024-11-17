@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:proto_book/controllers/announcement_controller.dart'; // Import controller
 import 'package:proto_book/views/announcement_screen.dart';
+import 'package:proto_book/views/search_result_screen.dart';
 import 'firebase_options.dart';
 import 'views/home_screen.dart';
 import 'views/user_screen.dart';
@@ -82,6 +83,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/user', page: () => UserScreen()),
         GetPage(name: '/bookDetail', page: () => BookDetailScreen()),
         GetPage(name: '/popularBooks', page: () => PopularScreen()),
+        GetPage(
+          name: '/searchResults',
+          page: () => SearchResultScreen(query: Get.parameters['query'] ?? ''),
+        ),
       ],
     );
   }

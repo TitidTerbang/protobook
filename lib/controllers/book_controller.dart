@@ -25,5 +25,16 @@ class BookController extends GetxController {
         isbn: '9780448452579'),
   ].obs;
 
+  // Getter untuk semua buku
   List<Book> get books => _books;
+
+  // Fungsi pencarian buku
+  List<Book> searchBooks(String query) {
+    return _books.where((book) {
+      final title = book.title.toLowerCase();
+      final author = book.author.toLowerCase();
+      final searchQuery = query.toLowerCase();
+      return title.contains(searchQuery) || author.contains(searchQuery);
+    }).toList();
+  }
 }
