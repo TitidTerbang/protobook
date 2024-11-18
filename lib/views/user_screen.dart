@@ -90,16 +90,15 @@ class UserScreen extends GetView<AuthController> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    // Logika untuk Test 1
-                                    print('Test 1 pressed');
+                                    Get.toNamed('/camera');
                                   },
-                                  child: Text('Test 1'),
+                                  child: Text('Camera'),
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
                                     Get.toNamed('/speaker');
                                   },
-                                  child: Text('Test 2'),
+                                  child: Text('Speaker'),
                                 ),
                               ],
                             ),
