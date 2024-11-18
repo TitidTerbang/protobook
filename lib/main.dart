@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:proto_book/controllers/announcement_controller.dart'; // Import controller
 import 'package:proto_book/views/announcement_screen.dart';
 import 'package:proto_book/views/search_result_screen.dart';
@@ -27,8 +28,21 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   Get.find<AnnouncementController>().addAnnouncementFromRemoteMessage(message);
 }
 
+Future<void> requestMicrophonePermission() async {
+  var status = await Permission.microphone.request();
+  if (status.isGranted) {
+    print("Microphone permission granted");
+  } else if (status.isDenied) {
+    print("Microphone permission denied");
+  } else if (status.isPermanentlyDenied) {
+    openAppSettings();
+  }
+}
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await requestMicrophonePermission();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
