@@ -4,21 +4,67 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:proto_book/controllers/book_controller.dart';
 import 'package:proto_book/views/search_result_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final bookController = Get.put(BookController());
+  final TextEditingController searchController = TextEditingController();
+
+  // Speech-to-text instance
+  late stt.SpeechToText _speechToText;
+  bool _isListening = false;
+  String _speechText = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _speechToText = stt.SpeechToText();
+  }
+
+  Future<void> _startListening() async {
+    bool available = await _speechToText.initialize(
+      onStatus: (status) => print("Status: $status"),
+      onError: (error) => print("Error: $error"),
+    );
+
+    if (available) {
+      setState(() {
+        _isListening = true;
+      });
+      _speechToText.listen(onResult: (result) {
+        setState(() {
+          _speechText = result.recognizedWords;
+          searchController.text = _speechText;
+        });
+      });
+    } else {
+      print("Speech recognition unavailable");
+    }
+  }
+
+  void _stopListening() {
+    _speechToText.stop();
+    setState(() {
+      _isListening = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController searchController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar Buku',
-            style: GoogleFonts.montserrat(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            )),
+        title: Text(
+          'Daftar Buku',
+          style: GoogleFonts.montserrat(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.campaign),
@@ -31,24 +77,44 @@ class HomeScreen extends StatelessWidget {
           preferredSize: Size.fromHeight(50),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                hintText: 'Cari buku...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Cari buku...',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    onSubmitted: (query) {
+                      if (query.isNotEmpty) {
+                        Get.to(
+                          () => SearchResultScreen(query: query),
+                        );
+                      }
+                    },
+                  ),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              onSubmitted: (query) {
-                if (query.isNotEmpty) {
-                  Get.to(
-                    () => SearchResultScreen(query: query),
-                  );
-                }
-              },
+                SizedBox(width: 8),
+                IconButton(
+                  icon: Icon(
+                    _isListening ? Icons.mic : Icons.mic_none,
+                    color: _isListening ? Colors.red : Colors.black,
+                  ),
+                  onPressed: () {
+                    if (_isListening) {
+                      _stopListening();
+                    } else {
+                      _startListening();
+                    }
+                  },
+                ),
+              ],
             ),
           ),
         ),
