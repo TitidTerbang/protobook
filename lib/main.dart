@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:proto_book/controllers/announcement_controller.dart'; // Import controller
 import 'package:proto_book/views/announcement_screen.dart';
 import 'package:proto_book/views/search_result_screen.dart';
+import 'package:proto_book/views/speaker_screen.dart';
 import 'firebase_options.dart';
 import 'views/home_screen.dart';
 import 'views/user_screen.dart';
@@ -16,9 +17,8 @@ import 'views/auth/signin_screen.dart';
 import 'views/auth/signup_screen.dart';
 import 'controllers/auth_controller.dart';
 
-
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -34,11 +34,8 @@ Future<void> requestMicrophonePermission() async {
     print("Microphone permission granted");
   } else if (status.isDenied) {
     print("Microphone permission denied");
-  } else if (status.isPermanentlyDenied) {
-    openAppSettings();
   }
 }
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +58,7 @@ void main() async {
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   // Inisialisasi controller
@@ -86,14 +83,12 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/',
           page: () =>
-          authController.isLoggedIn.value ? HomeScreen() : SignInScreen(),
+              authController.isLoggedIn.value ? HomeScreen() : SignInScreen(),
         ),
         GetPage(name: '/signIn', page: () => SignInScreen()),
         GetPage(name: '/signUp', page: () => SignUpScreen()),
         GetPage(name: '/home', page: () => HomeScreen()),
-        GetPage(
-            name: '/announcement',
-            page: () => AnnouncementScreen()),
+        GetPage(name: '/announcement', page: () => AnnouncementScreen()),
         GetPage(name: '/user', page: () => UserScreen()),
         GetPage(name: '/bookDetail', page: () => BookDetailScreen()),
         GetPage(name: '/popularBooks', page: () => PopularScreen()),
@@ -101,6 +96,7 @@ class MyApp extends StatelessWidget {
           name: '/searchResults',
           page: () => SearchResultScreen(query: Get.parameters['query'] ?? ''),
         ),
+        GetPage(name: '/speaker', page: () => SpeakerScreen()),
       ],
     );
   }

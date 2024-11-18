@@ -23,72 +23,95 @@ class UserScreen extends GetView<AuthController> {
         ],
       ),
       body: Obx(() => SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    userController.changeProfilePicture();
-                  },
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundImage:
-                    userController.appUser.value.profilePicture.contains('http')
-                        ? NetworkImage(userController.appUser.value.profilePicture)
-                        : FileImage(File(userController.appUser.value.profilePicture))
-                    as ImageProvider,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  userController.appUser.value.name,
-                  style: TextStyle(fontSize: 24),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  userController.appUser.value.email ?? 'Email tidak tersedia',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 20),
-                Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        userController.changeProfilePicture();
+                      },
+                      child: CircleAvatar(
+                        radius: 80,
+                        backgroundImage: userController
+                                .appUser.value.profilePicture
+                                .contains('http')
+                            ? NetworkImage(
+                                userController.appUser.value.profilePicture)
+                            : FileImage(File(userController.appUser.value
+                                .profilePicture)) as ImageProvider,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      userController.appUser.value.name,
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      userController.appUser.value.email ??
+                          'Email tidak tersedia',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 20),
+                    Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Bio',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Bio',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.edit),
+                                  onPressed: () => _showEditBioDialog(context),
+                                ),
+                              ],
                             ),
-                            IconButton(
-                              icon: Icon(Icons.edit),
-                              onPressed: () => _showEditBioDialog(context),
+                            SizedBox(height: 8),
+                            Text(
+                              userController.appUser.value.bio ??
+                                  'Belum ada bio',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    // Logika untuk Test 1
+                                    print('Test 1 pressed');
+                                  },
+                                  child: Text('Test 1'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Get.toNamed('/speaker');
+                                  },
+                                  child: Text('Test 2'),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          userController.appUser.value.bio ?? 'Belum ada bio',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      )),
+          )),
     );
   }
 

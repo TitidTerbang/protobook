@@ -8,6 +8,8 @@ Lib/
 │   ├── announcement_controller.dart
 │   ├── auth_controller.dart
 │   ├── book_controller.dart
+│   ├── search_controller.dart
+│   ├── speaker_controller.dart
 │   └── user_controller.dart
 ├── models/
 │   ├── announcement.dart
@@ -24,6 +26,7 @@ Lib/
 │   ├── home_screen.dart
 │   ├── populer_screen.dart
 │   ├── search_result_screen.dart
+│   ├── speaker_screen.dart
 │   └── user_screen.dart
 ├── apikey.txt
 ├── firebase_options.dart
