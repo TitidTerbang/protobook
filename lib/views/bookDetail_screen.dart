@@ -16,11 +16,11 @@ class BookDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(book.title, style: GoogleFonts.montserrat()),
       ),
-      body: FutureBuilder<Map<String, dynamic>>( // Ubah tipe data FutureBuilder
-        future: fetchBookDetails(book.isbn), // Gunakan ISBN untuk mengambil data
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: fetchBookDetails(book.isbn),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final bookInfo = snapshot.data!; // Data buku dari API
+            final bookInfo = snapshot.data!;
 
             return SingleChildScrollView(
               child: Padding(
@@ -30,7 +30,7 @@ class BookDetailScreen extends StatelessWidget {
                   children: [
                     Center(
                       child: Image.asset(
-                        book.imagePath, // Gambar masih dari aset lokal
+                        book.imagePath,
                         height: 200,
                         fit: BoxFit.cover,
                       ),
@@ -60,6 +60,32 @@ class BookDetailScreen extends StatelessWidget {
                     Text(
                       bookInfo['description'] ?? 'Deskripsi tidak tersedia.',
                       style: GoogleFonts.montserrat(fontSize: 16),
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Kategori:',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8.0,
+                      runSpacing: 4.0,
+                      children: (bookInfo['categories'] ?? ['Kategori tidak tersedia.'])
+                          .map<Widget>((category) => Chip(
+                                label: Text(
+                                  category,
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                backgroundColor: Colors.blueAccent,
+                                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                              ))
+                          .toList(),
                     ),
                   ],
                 ),

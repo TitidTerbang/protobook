@@ -23,6 +23,21 @@ class BookController extends GetxController {
         author: 'Watty Piper',
         imagePath: 'assets/images/wally.jpg',
         isbn: '9780448452579'),
+    Book(
+        title: 'Charlotte\'s Web',
+        author: 'E.B. White',
+        imagePath: 'assets/images/charlotte.jpg',
+        isbn: '9780064400558'),
+    Book(
+        title: '1984',
+        author: 'George Orwell',
+        imagePath: 'assets/images/1984.jpg',
+        isbn: '9780451524935'),
+    Book(
+        title: 'The Great Gatsby',
+        author: 'F. Scott Fitzgerald',
+        imagePath: 'assets/images/gatsby.jpg',
+        isbn: '9780743273565'),
   ].obs;
 
   // Getter untuk semua buku

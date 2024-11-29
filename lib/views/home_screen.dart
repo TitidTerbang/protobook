@@ -5,6 +5,7 @@ import 'package:proto_book/controllers/book_controller.dart';
 import 'package:proto_book/views/search_result_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:proto_book/controllers/category_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final bookController = Get.put(BookController());
+  final categoryController = Get.put(CategoryController());
   final TextEditingController searchController = TextEditingController();
 
   // Speech-to-text instance
@@ -119,95 +121,144 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Buku Terbaru',
-              style: GoogleFonts.montserrat(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 200,
-            child: Obx(() => ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: bookController.books.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed('/bookDetail',
-                        arguments: bookController.books[index]);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 150,
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                              bookController.books[index].imagePath,
-                              height: 120,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            bookController.books[index].title,
-                            style: GoogleFonts.montserrat(),
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            bookController.books[index].author,
-                            style: GoogleFonts.montserrat(fontSize: 12),
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Add Categories Section
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Kategori',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
-              },
-            )),
-          ),
-          // Section Buku Populer
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Get.toNamed('/popularBooks');
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Warna latar belakang button
-                foregroundColor: Colors.white, // Warna teks button
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Padding button
-                textStyle: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.login),
-                  SizedBox(width: 8),
-                  Text('Buku Populer'),
-                ],
+              SizedBox(
+                height: 50,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  itemCount: categoryController.categories.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Obx(() => FilterChip(
+                        label: Text(
+                          categoryController.categories[index],
+                          style: TextStyle(
+                            color: categoryController.selectedCategory.value == 
+                                    categoryController.categories[index] 
+                                    ? Colors.white 
+                                    : Colors.black,
+                          ),
+                        ),
+                        selected: categoryController.selectedCategory.value == 
+                                 categoryController.categories[index],
+                        onSelected: (selected) {
+                          categoryController.setSelectedCategory(
+                            categoryController.categories[index]
+                          );
+                        },
+                        selectedColor: Colors.blue,
+                        backgroundColor: Colors.grey[200],
+                      )),
+                    );
+                  },
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Buku Terbaru',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                child: Obx(() => ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: bookController.books.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/bookDetail',
+                            arguments: bookController.books[index]);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 150,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.asset(
+                                  bookController.books[index].imagePath,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                bookController.books[index].title,
+                                style: GoogleFonts.montserrat(),
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                bookController.books[index].author,
+                                style: GoogleFonts.montserrat(fontSize: 12),
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                )),
+              ),
+              // Section Buku Populer
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.toNamed('/popularBooks');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, // Warna latar belakang button
+                    foregroundColor: Colors.white, // Warna teks button
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Padding button
+                    textStyle: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.login),
+                      SizedBox(width: 8),
+                      Text('Buku Populer'),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
