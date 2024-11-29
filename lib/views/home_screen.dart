@@ -163,8 +163,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             categoryController.categories[index]
                           );
                         },
-                        selectedColor: Colors.blue,
-                        backgroundColor: Colors.grey[200],
+                        selectedColor: categoryController.categoryColors[categoryController.categories[index]],
+                        backgroundColor: categoryController.categoryColors[categoryController.categories[index]]?.withOpacity(0.2),
                       )),
                     );
                   },
@@ -182,53 +182,58 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(
                 height: 200,
-                child: Obx(() => ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: bookController.books.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Get.toNamed('/bookDetail',
-                            arguments: bookController.books[index]);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 150,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.asset(
-                                  bookController.books[index].imagePath,
-                                  height: 120,
-                                  fit: BoxFit.cover,
+                child: Obx(() {
+                  var filteredBooks = bookController.getBooksByCategory(
+                    categoryController.selectedCategory.value
+                  );
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: filteredBooks.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed('/bookDetail',
+                              arguments: filteredBooks[index]);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 150,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.asset(
+                                    filteredBooks[index].imagePath,
+                                    height: 120,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
-                                bookController.books[index].title,
-                                style: GoogleFonts.montserrat(),
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                bookController.books[index].author,
-                                style: GoogleFonts.montserrat(fontSize: 12),
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
+                                SizedBox(height: 8),
+                                Text(
+                                  filteredBooks[index].title,
+                                  style: GoogleFonts.montserrat(),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  filteredBooks[index].author,
+                                  style: GoogleFonts.montserrat(fontSize: 12),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                )),
+                      );
+                    },
+                  );
+                }),
               ),
               // Section Buku Populer
               Padding(
