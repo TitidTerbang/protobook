@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:proto_book/controllers/announcement_controller.dart'; // Import controller
 import 'package:proto_book/views/announcement_screen.dart';
 import 'package:proto_book/views/camera_screen.dart';
+import 'package:proto_book/views/library_screen.dart';
 import 'package:proto_book/views/search_result_screen.dart';
 import 'package:proto_book/views/speaker_screen.dart';
 import 'firebase_options.dart';
@@ -99,6 +100,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(name: '/speaker', page: () => SpeakerScreen()),
         GetPage(name: '/camera', page: () => CameraScreen()),
+        GetPage(name: '/library', page: () => LibraryScreen()),
       ],
     );
   }

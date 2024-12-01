@@ -8,6 +8,8 @@ Lib/
 │   ├── announcement_controller.dart
 │   ├── auth_controller.dart
 │   ├── book_controller.dart
+│   ├── camera_controller.dart
+│   ├── category_controller.dart
 │   ├── search_controller.dart
 │   ├── speaker_controller.dart
 │   └── user_controller.dart

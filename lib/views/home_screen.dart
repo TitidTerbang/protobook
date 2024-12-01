@@ -238,27 +238,68 @@ class _HomeScreenState extends State<HomeScreen> {
               // Section Buku Populer
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed('/popularBooks');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue, // Warna latar belakang button
-                    foregroundColor: Colors.white, // Warna teks button
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Padding button
-                    textStyle: GoogleFonts.montserrat(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed('/popularBooks');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          textStyle: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.login),
+                            SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                'Buku Populer',
+                                textAlign: TextAlign.center,
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.login),
-                      SizedBox(width: 8),
-                      Text('Buku Populer'),
-                    ],
-                  ),
+                    SizedBox(width: 8),
+                    Flexible(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed('/library');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          textStyle: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.location_on),
+                            SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                'Perpustakaan Terdekat',
+                                textAlign: TextAlign.center,
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
